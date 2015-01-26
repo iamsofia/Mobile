@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+   
+    <title>Calculator</title>
+    <meta name="viewport" content ="width= device-width, initial-scale=1" >
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />        
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+</head>
+   
+<script type ="text/javascript">
+
+    //Sofia Moreno Cesar
+    //Mobile Web Grade Calculator
+    //4-30-2014
+
+    function cleartxt() {
+        // clear textboxes
+        document.getElementById("Exam1").value = "";
+        document.getElementById("Exam2").value = "";
+        document.getElementById("Exam3").value = "";
+        document.getElementById("FinalProject").value = "";
+        document.getElementById("IndividualProjects").value = "";
+        document.getElementById("TeamProjects").value = "";
+        document.getElementById("txtNumericGrade").value = "";
+        document.getElementById("txtLetterGrade").value = "";
+    }
+
+
+	
+    function calculate() {
+
+
+        //calculate the multiplication of the two inputs
+
+        //check that each txtbox has input --> 'return' if not
+        if (document.getElementById("Exam1").value == "") {
+            alert("You must input a valid grade for Exam 1");
+            return;
+        }
+
+        if (document.getElementById("Exam2").value == "") {
+            alert("You must input a valid grade for Exam 2");
+            return;
+        }
+
+        if (document.getElementById("Exam3").value == "") {
+            alert("You must input a valid grade for Exam 3");
+            return;
+        }
+
+        if (document.getElementById("FinalProject").value == "") {
+            alert("You must input a valid grade for Final Project");
+            return;
+        }
+
+        if (document.getElementById("IndividualProjects").value == "") {
+            alert("You must input a valid grade for Individual Projects");
+            return;
+        }
+
+        if (document.getElementById("TeamProjects").value == "") {
+            alert("You must input a valid grade for Team Projects");
+            return;
+        }
+
+        //get values of textboxes
+
+        var Exam1 = document.getElementById("Exam1").value;
+        var Exam2 = document.getElementById("Exam2").value;
+        var Exam3 = document.getElementById("Exam3").value;
+        var FinalProj = document.getElementById("FinalProject").value;
+        var IndivProj = document.getElementById("IndividualProjects").value;
+        var TeamProj = document.getElementById("TeamProjects").value;
+
+        //validate input
+        //make sure input is positive integer and falls within range
+        if (CheckInteger(Exam1) == false || CheckRange(Exam1) == false) {
+            alert("Exam1 input must be positive integer between 0 and 100");
+            return;
+        }
+        if (CheckInteger(Exam2) == false || CheckRange(Exam2) == false) {
+            alert("Exam2 input must be positive integer between 0 and 100");
+            return;
+        }
+        if (CheckInteger(Exam3) == false || CheckRange(Exam3) == false) {
+            alert("Exam3 input must be positive integer between 0 and 100");
+            return;
+        }
+        if (CheckInteger(FinalProj) == false || CheckRange(FinalProj) == false) {
+            alert("Final Project input must be positive integer between 0 and 100");
+            return;
+        }
+        if (CheckInteger(IndivProj) == false || CheckRange(IndivProj) == false) {
+            alert("Individual Projects input must be positive integer between 0 and 100");
+            return;
+        }
+        if (CheckInteger(TeamProj) == false || CheckRange(TeamProj) == false) {
+            alert("Team Projects input must be positive integer between 0 and 100");
+            return;
+        }
+
+
+
+
+        //do calculations
+        //numeric grade
+        var decFinalNumeric = (Exam1 * .17) + (Exam2 * .17) + (Exam3 * .17) + (FinalProj * .1) + (IndivProj * .24) + (TeamProj * .15);
+
+        //assign letter grade
+        var totalAs = 0;
+        var totalFs = 0;
+        var strFinalLetter = ""; 
+
+        if (decFinalNumeric > 89.50 & decFinalNumeric <= 100) {
+            strFinalLetter = "A";
+            totalAs += 1;
+        }
+        else if (decFinalNumeric > 79.50 & decFinalNumeric <= 89.49) {
+            strFinalLetter = "B";
+        }
+        else if (decFinalNumeric > 69.50 & decFinalNumeric <= 79.49) {
+            strFinalLetter = "C";
+        }
+        else if (decFinalNumeric > 59.50 & decFinalNumeric <= 69.49) {
+            strFinalLetter = "D";
+        }
+        else {
+            strFinalLetter = "F";
+            totalFs += 1;
+            
+        }
+        //letter grade pop up
+        alert("Your final grade is a(n) " + strFinalLetter);
+
+        //add to running totals
+        
+        
+
+	//Display outputs
+        document.getElementById("txtNumericGrade").value = decFinalNumeric.toFixed(2);
+        document.getElementById("txtLetterGrade").value = strFinalLetter;
+        document.getElementById("txtStudentAs").value = document.getElementById("txtStudentAs").value*1 + totalAs;
+        document.getElementById("txtStudentFs").value = document.getElementById("txtStudentFs").value*1 + totalFs;
+
+	
+    }
+
+    function CheckInteger(inText) {
+        //Author: Kate Humphrey
+        //Inputs: txtbox information
+        //Outputs: True/False
+        //Purpose: To find if the input is an integer
+        var ValidChars = "0123456789";
+        var IsNumber = true;
+        var Char;
+        //create a loop to check each individual character
+        for (i = 0; i < inText.length && IsNumber == true; i++) {
+            Char = inText.charAt(i);
+            if (ValidChars.indexOf(Char) == -1) {
+                IsNumber = false;
+            }
+        }
+        return IsNumber;
+    }
+
+    function CheckRange(inText) {
+        //Author: Sofia Moreno Cesar
+        //inputs: txtbox info
+        //outputs: True/False
+        //Purpose: To find if the input is within the range 0-100
+
+
+        if (inText < 0 || inText > 100) {
+
+            return false;
+
+        }
+
+        return true;
+
+    }
+
+    
+    function reset() {
+        //reset A/F counts
+        document.getElementById("txtStudentAs").value = 0;
+        document.getElementById("txtStudentFs").value = 0;
+
+    }
+
+   
+</script>
+
+<body>
+    <div data-role="page">
+
+    <div data-role="header">
+        <h1>Grade Calculator</h1>
+    </div> 
+
+    <div data-role="content">
+        <!-- textboxes and buttons -->
+
+        <p>Input student grades </p>
+        <p>Exam 1: </p><br />
+        <input type="text" id="Exam1" />
+        <br />
+         <p>Exam 2: </p><br />
+        <input type="text" id="Exam2" />
+        <br />
+         <p>Exam 3: </p><br />
+        <input type="text" id="Exam3" />
+        <br />
+         <p>Final Project: </p><br />
+        <input type="text" id="FinalProject" />
+        <br />
+         <p>Individual Homework Projects:  </p><br />
+        <input type="text" id="IndividualProjects" />
+        <br />
+         <p>Team Homework Projects </p><br />
+        <input type="text" id="TeamProjects" />
+        <br />
+        
+
+        <input type="button" id="calcbutton" value="Calculate Grade" onclick="calculate()" />
+        <br />
+        <br />
+
+        <p>Final Numeric Grade: </p>
+        <input type="text" id ="txtNumericGrade" readonly="readonly" />
+        <br />
+        <p>Final Letter Grade: </p>
+        <input type="text" id="txtLetterGrade" readonly="readonly" />
+        <br />
+        <p>Students with As: </p>
+        <input type="text" id="txtStudentAs" readonly="readonly" />
+        <br />
+        <p>Students with Fs: </p>
+        <input type="text" id="txtStudentFs" readonly="readonly" />
+        <br />
+        <input type="button" id="clearbutton" value="Clear Student Data" onclick="cleartxt()"/>
+        <br />
+        <input type="button" id="resetbutton" value="Reset A/F Count" onclick="reset()"/>
+        <br />
+        <br />
+        <p>Created by Sofia Moreno Cesar</p>
+        <br />
+    </div><!-- /content -->
+
+
+</div> <!-- page -->
+</body>
+
+</html>
